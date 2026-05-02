@@ -660,14 +660,53 @@ function runSearch(query) {
     return;
   }
 
-  const matches = SEARCH_INDEX.filter(item => {
-    if (item.title.toLowerCase().includes(q)) return true;
-    if (item.type.toLowerCase().includes(q))  return true;
-    return item.keywords.some(k => k.toLowerCase().includes(q));
-  });
+  // Score each entry by relevance.
+  // Higher score = more relevant. Threshold: keep score >= 50.
+  function scoreItem(item) {
+    const title = item.title.toLowerCase();
+    const type = item.type.toLowerCase();
+    const keywords = item.keywords.map(k => k.toLowerCase());
+
+    // Exact title match
+    if (title === q) return 1000;
+
+    // Title starts with query (e.g. "Mac" matches "Machiavelli")
+    if (title.startsWith(q)) return 500;
+
+    // A word in the title starts with query (e.g. "Mac" matches "Philip of Macedon")
+    const titleWords = title.split(/\s+/);
+    if (titleWords.some(w => w.startsWith(q))) return 300;
+
+    // A keyword exactly matches
+    if (keywords.includes(q)) return 250;
+
+    // A keyword starts with query
+    if (keywords.some(k => k.startsWith(q))) return 200;
+
+    // A word inside a keyword starts with query
+    if (keywords.some(k => k.split(/\s+/).some(w => w.startsWith(q)))) return 150;
+
+    // Type matches
+    if (type === q) return 120;
+
+    // Substring match somewhere — only if query is at least 4 chars
+    if (q.length >= 4) {
+      if (title.includes(q)) return 80;
+      if (keywords.some(k => k.includes(q))) return 60;
+    }
+
+    return 0;
+  }
+
+  const scored = SEARCH_INDEX
+    .map(item => ({ item, score: scoreItem(item) }))
+    .filter(x => x.score >= 50)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 8);
+
+  const matches = scored.map(x => x.item);
 
   searchResults.innerHTML = "";
-
   if (matches.length === 0) {
     const li = document.createElement("li");
     li.className = "no-result";
