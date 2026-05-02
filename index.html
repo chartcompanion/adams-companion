@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Adams Chart Visual Companion</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
   <header class="site-header">
@@ -13,6 +13,23 @@
       Explore the full Adams Synchronological Chart and 10 high-resolution zoomable panels.
     </p>
   </header>
+
+  <!-- Book promo banner -->
+  <aside class="book-promo">
+    <p class="book-promo-text"><strong>Sebastian Adams compressed 6,000 years into 23 feet of paper.</strong> The companion book unpacks every section so you can actually read what's there.</p>
+    <button class="book-promo-btn" id="book-cta">Discover the Book &rarr;</button>
+  </aside>
+
+  <!-- Book modal -->
+  <div class="book-modal" id="book-modal" hidden>
+    <div class="book-modal-content">
+      <button class="book-modal-close" id="book-modal-close" aria-label="Close">&times;</button>
+      <h2>The Book is Coming Soon</h2>
+      <p>The companion book to Adams' Synchronological Chart is being prepared for publication on Amazon.</p>
+      <p>Bookmark this page and check back soon &mdash; or share the site with someone who'd appreciate it.</p>
+      <p class="book-modal-hint">When the book launches, this page will link directly to it.</p>
+    </div>
+  </div>
 
   <main>
     <!-- Search -->
@@ -79,6 +96,6 @@
 
   <!-- OpenSeadragon from CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js"></script>
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>

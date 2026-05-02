@@ -755,3 +755,25 @@ document.addEventListener("click", e => {
 
 /* -------- Initial load -------- */
 loadPanel("full");
+
+/* -------- Book promo modal -------- */
+const bookCta = document.getElementById("book-cta");
+const bookModal = document.getElementById("book-modal");
+const bookModalClose = document.getElementById("book-modal-close");
+
+if (bookCta && bookModal && bookModalClose) {
+  bookCta.addEventListener("click", () => {
+    bookModal.hidden = false;
+  });
+  bookModalClose.addEventListener("click", () => {
+    bookModal.hidden = true;
+  });
+  bookModal.addEventListener("click", e => {
+    if (e.target === bookModal) bookModal.hidden = true;
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !bookModal.hidden) {
+      bookModal.hidden = true;
+    }
+  });
+}
