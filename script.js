@@ -754,7 +754,15 @@ document.addEventListener("click", e => {
 });
 
 /* -------- Initial load -------- */
-loadPanel("full");
+/* Read panel from URL query string for QR code deep links */
+const urlParams = new URLSearchParams(window.location.search);
+const panelFromUrl = urlParams.get("panel");
+const validPanels = ["full","p1","p2","p3","p4","p5","p6","p7","p8","p9","p10"];
+if (panelFromUrl && validPanels.includes(panelFromUrl)) {
+  loadPanel(panelFromUrl);
+} else {
+  loadPanel("full");
+}
 
 /* -------- Book promo modal -------- */
 const bookCta = document.getElementById("book-cta");
