@@ -570,6 +570,14 @@ const viewer = OpenSeadragon({
 function loadPanel(key) {
   if (!PANELS[key]) return;
   currentKey = key;
+
+  /* Update browser URL so it reflects the current panel (deep-link friendly) */
+  if (window.history && window.history.pushState) {
+    const newUrl = key === "full"
+      ? window.location.pathname
+      : window.location.pathname + "?panel=" + key;
+    window.history.pushState({ panel: key }, "", newUrl);
+  }
   const panel = PANELS[key];
 
   // Update header text
@@ -785,3 +793,14 @@ if (bookCta && bookModal && bookModalClose) {
     }
   });
 }
+
+/* -------- Handle browser back/forward buttons for deep-link navigation -------- */
+window.addEventListener("popstate", () => {
+  const params = new URLSearchParams(window.location.search);
+  const panel = params.get("panel");
+  if (panel && PANELS[panel]) {
+    loadPanel(panel);
+  } else {
+    loadPanel("full");
+  }
+});
