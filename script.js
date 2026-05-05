@@ -778,7 +778,7 @@ const bookModal = document.getElementById("book-modal");
 const bookModalClose = document.getElementById("book-modal-close");
 
 if (bookCta && bookModal && bookModalClose) {
-  bookCta.addEventListener("click", () => {
+  bookCta.addEventListener("click", () => { window.open("https://www.amazon.com/s?k=adams+time+chart&rh=p_78%3AB0GZKB488T%2Cssx%3Arelevance", "_blank"); return;
     bookModal.hidden = false;
   });
   bookModalClose.addEventListener("click", () => {
